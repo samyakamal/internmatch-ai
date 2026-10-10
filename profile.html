@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}My profile — InternMatch AI{% endblock %}
+{% block content %}
+<div class="section-heading">
+  <div><div class="eyebrow">YOUR PERSONAL MATCHING PROFILE</div><h1>Let's get to know you.</h1><p class="muted">The more you tell us, the more relevant your recommendations can be.</p></div>
+  <div class="profile-avatar">{{ user['name'][0]|upper }}</div>
+</div>
+<form method="post" enctype="multipart/form-data" class="profile-grid">
+  <section class="panel">
+    <div class="panel-heading"><span class="step">01</span><div><h2>About you</h2><p>Your academic background</p></div></div>
+    <label>Full name<input value="{{ user['name'] }}" disabled></label>
+    <label>Email<input value="{{ user['email'] }}" disabled></label>
+    <div class="two-col">
+      <label>Degree / course<input name="degree" value="{{ profile['degree'] or '' }}" placeholder="e.g. B.Tech Computer Science"></label>
+      <label>Graduation year<input name="graduation_year" value="{{ profile['graduation_year'] or '' }}" placeholder="e.g. 2027"></label>
+    </div>
+    <label>Skills <span class="label-hint">Separate with commas</span><textarea name="skills" rows="3" placeholder="Python, SQL, machine learning, pandas...">{{ profile['skills'] or '' }}</textarea></label>
+    <label>Interests <span class="label-hint">What would you like to work on?</span><textarea name="interests" rows="3" placeholder="NLP, AI research, data science, healthcare...">{{ profile['interests'] or '' }}</textarea></label>
+  </section>
+  <section class="panel">
+    <div class="panel-heading"><span class="step">02</span><div><h2>Your preferences</h2><p>Help us narrow down the list</p></div></div>
+    <label>Preferred location
+      <select name="preferred_location">
+        {% for opt in ['Any','Remote','Bengaluru','Kolkata','Delhi','Pune','Hyderabad','Chennai'] %}
+        <option value="{{ opt }}" {% if profile['preferred_location']==opt %}selected{% endif %}>{{ opt }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Work mode
+      <select name="work_mode">
+        {% for opt in ['Any','Remote','Hybrid','On-site'] %}
+        <option value="{{ opt }}" {% if profile['work_mode']==opt %}selected{% endif %}>{{ opt }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <div class="upload-box">
+      <div class="upload-symbol">↑</div><h3>Upload your resume</h3>
+      <p>PDF, DOCX or TXT · Max 5 MB</p>
+      <input type="file" name="resume" accept=".pdf,.docx,.txt">
+      {% if profile['resume_filename'] %}<div class="uploaded">✓ Current resume: {{ profile['resume_filename'] }}</div>{% endif %}
+    </div>
+    <p class="privacy-note">Your resume text is used for matching in this demo. Don't upload sensitive information you don't need to share.</p>
+    <button class="button primary full" type="submit">Save profile & find matches ↗</button>
+  </section>
+</form>
+{% endblock %}

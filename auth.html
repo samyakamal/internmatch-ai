@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Create account' if mode == 'signup' else 'Log in' }} — InternMatch AI{% endblock %}
+{% block content %}
+<div class="auth-layout">
+  <section class="auth-aside">
+    <div class="eyebrow">A SMARTER WAY TO START</div>
+    <h1>Find work that<br><span>fits you.</span></h1>
+    <p>Your next opportunity doesn't have to be a needle in a haystack.</p>
+    <div class="aside-mini"><div class="mini-icon">✦</div><div><b>Recommendations that get you</b><small>Based on your skills, interests and resume.</small></div></div>
+  </section>
+  <section class="auth-card">
+    <a class="back-link" href="{{ url_for('index') }}">← Back home</a>
+    <h2>{{ 'Create your account' if mode == 'signup' else 'Welcome back' }}</h2>
+    <p class="muted">{{ 'Start finding internships tailored to you.' if mode == 'signup' else 'Your next opportunity is waiting.' }}</p>
+    <form method="post" class="form">
+      {% if mode == 'signup' %}
+      <label>Full name<input name="name" placeholder="e.g. Aanya Sharma" required autocomplete="name"></label>
+      {% endif %}
+      <label>Email address<input type="email" name="email" placeholder="you@example.com" required autocomplete="email"></label>
+      <label>Password<input type="password" name="password" placeholder="At least 8 characters" minlength="8" required autocomplete="{{ 'new-password' if mode == 'signup' else 'current-password' }}"></label>
+      <button class="button primary full" type="submit">{{ 'Create account' if mode == 'signup' else 'Log in' }} <span>↗</span></button>
+    </form>
+    <p class="switch-auth">{{ 'Already have an account?' if mode == 'signup' else "New to InternMatch AI?" }} <a href="{{ url_for('login' if mode == 'signup' else 'signup') }}">{{ 'Log in' if mode == 'signup' else 'Create an account' }}</a></p>
+    <p class="tiny-note">Demo build: use a unique email and a strong password. No email verification is configured.</p>
+  </section>
+</div>
+{% endblock %}
